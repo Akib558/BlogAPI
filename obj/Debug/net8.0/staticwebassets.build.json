@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "AzWzf4aJiwXHhgAi2hyAwz3WDGqu1VyNfDGB6pvKGO8=",
+  "Source": "BlogAPI",
+  "BasePath": "_content/BlogAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "BlogAPI\\wwwroot",
+      "Source": "BlogAPI",
+      "ContentRoot": "E:\\Dotnet\\BlogAPI\\wwwroot\\",
+      "BasePath": "_content/BlogAPI",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}
