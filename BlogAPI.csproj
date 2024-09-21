@@ -18,11 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extension\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="wwwroot\" />
-    <Folder Include="Test\" />
-    <Folder Include="Utilities\" />
+    <Folder Include="Extension/" />
+    <Folder Include="Helpers/" />
+    <Folder Include="wwwroot/" />
+    <Folder Include="Test/" />
+    <Folder Include="Utilities/" />
   </ItemGroup>
 
 </Project>
