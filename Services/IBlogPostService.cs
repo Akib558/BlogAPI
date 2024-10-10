@@ -4,7 +4,7 @@ namespace BlogAPI.Services
 {
     public interface IBlogPostService
     {
-        Task<BlogPostDto?> GetByIdAsync(int id);
+        Task<BlogPostDto?> GetByIdAsync(Guid id);
         Task<IEnumerable<BlogPostDto>> GetAllAsync();
         Task AddAsync(BlogPostDto blogPost);
         Task UpdateAsync(BlogPostDto blogPost);

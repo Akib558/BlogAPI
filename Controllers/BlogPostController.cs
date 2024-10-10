@@ -16,7 +16,7 @@ namespace BlogAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             var blogPost = await _service.GetByIdAsync(id);
             if (blogPost == null)
@@ -37,7 +37,8 @@ namespace BlogAPI.Controllers
         public async Task<IActionResult> Add([FromBody] BlogPostDto blogPost)
         {
             await _service.AddAsync(blogPost);
-            return CreatedAtAction(nameof(GetById), new { id = blogPost.Id }, blogPost);
+
+            return CreatedAtAction(nameof(GetById), new { id = blogPost.BlogGuid }, blogPost);
         }
 
         [HttpPut]

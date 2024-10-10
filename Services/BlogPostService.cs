@@ -12,7 +12,7 @@ namespace BlogAPI.Services
             _repository = repository;
         }
 
-        public Task<BlogPostDto?> GetByIdAsync(int id)
+        public Task<BlogPostDto?> GetByIdAsync(Guid id)
         {
             return _repository.GetByIdAsync(id);
         }

@@ -13,13 +13,14 @@ namespace BlogAPI.Repositories
             _context = context;
         }
 
-        public async Task<BlogPostDto?> GetByIdAsync(int id)
+        // Fetch a blog post by its BlogGuid (Guid)
+        public async Task<BlogPostDto?> GetByIdAsync(Guid BlogGuid)
         {
             return await _context.BlogPosts
-                .Where(bp => bp.Id == id)
+                .Where(bp => bp.BlogGuid == BlogGuid)
                 .Select(bp => new BlogPostDto
                 {
-                    Id = bp.Id,
+                    BlogGuid = bp.BlogGuid,
                     Title = bp.Title,
                     Content = bp.Content,
                     PublishedDate = bp.PublishedDate
@@ -27,17 +28,21 @@ namespace BlogAPI.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        // Fetch all blog posts
         public async Task<IEnumerable<BlogPostDto>> GetAllAsync()
         {
-            return await _context.BlogPosts.Select(bp => new BlogPostDto
-            {
-                Id = bp.Id,
-                Title = bp.Title,
-                Content = bp.Content,
-                PublishedDate = bp.PublishedDate
-            }).ToListAsync();
+            return await _context.BlogPosts
+                .Select(bp => new BlogPostDto
+                {
+                    BlogGuid = bp.BlogGuid,
+                    Title = bp.Title,
+                    Content = bp.Content,
+                    PublishedDate = bp.PublishedDate
+                })
+                .ToListAsync();
         }
 
+        // Add a new blog post
         public async Task AddAsync(BlogPostDto blogPostDto)
         {
             if (blogPostDto == null)
@@ -48,17 +53,17 @@ namespace BlogAPI.Repositories
             // Create a new BlogPost entity from the DTO
             var blogPost = new BlogPost
             {
-                //Id = blogPostDto.Id,  // Assuming Id is auto-generated; typically, you should not set this
+                BlogGuid = blogPostDto.BlogGuid, // Ensure the BlogGuid is properly set
                 Title = blogPostDto.Title,
                 Content = blogPostDto.Content,
                 PublishedDate = blogPostDto.PublishedDate
             };
 
-            _context.BlogPosts.Add(blogPost);  // Add the entity to the context
-            await _context.SaveChangesAsync();  // Save changes to the database
+            _context.BlogPosts.Add(blogPost);
+            await _context.SaveChangesAsync();
         }
 
-
+        // Update an existing blog post
         public async Task UpdateAsync(BlogPostDto blogPostDto)
         {
             if (blogPostDto == null)
@@ -66,27 +71,24 @@ namespace BlogAPI.Repositories
                 throw new ArgumentNullException(nameof(blogPostDto));
             }
 
-            // Fetch the existing entity from the database
-            var blogPost = await _context.BlogPosts.FindAsync(blogPostDto.Id);
+            // Fetch the existing entity
+            var blogPost = await _context.BlogPosts.FindAsync(blogPostDto.BlogGuid);
 
             if (blogPost == null)
             {
                 throw new InvalidOperationException("BlogPost not found");
             }
 
-            // Map properties from DTO to entity
+            // Update properties
             blogPost.Title = blogPostDto.Title;
             blogPost.Content = blogPostDto.Content;
             blogPost.PublishedDate = blogPostDto.PublishedDate;
 
-            // Mark the entity as modified (this is not strictly necessary in this case)
             _context.BlogPosts.Update(blogPost);
-
-            // Save changes to the database
             await _context.SaveChangesAsync();
         }
 
-
+        // Delete a blog post by its Id
         public async Task DeleteAsync(int id)
         {
             var blogPost = await _context.BlogPosts.FindAsync(id);
@@ -97,5 +99,4 @@ namespace BlogAPI.Repositories
             }
         }
     }
-
 }
